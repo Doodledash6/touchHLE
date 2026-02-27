@@ -660,6 +660,13 @@ impl GLES1OnGL2<'_> {
                 gl21::VERTEX_ARRAY => {
                     gl21::VertexPointer(size.unwrap(), gl21::FLOAT, stride, pointer)
                 }
+                 // MAX_COLOR_ATTACHMENTS_EXT or MAX_COLOR_ATTACHMENTS_OES
+                0x1d00 => {
+                // According to [OES_framebuffer_object](https://registry.khronos.org/OpenGL/extensions/OES/OES_framebuffer_object.txt),
+                // MAX_COLOR_ATTACHMENTS_OES is not supported in the extension,
+                // but we return 1 to match the real device.
+                mem.write(params, 1 as _);
+            }
                 _ => unreachable!(),
             }
         }
